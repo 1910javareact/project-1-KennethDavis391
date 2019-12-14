@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { SyntheticEvent } from 'react'
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+//import { User } from '../../models/user'
 
-export class LoginComponent extends React.Component<any, any>{
+interface ILoginComponentProps {
+    //user: User
+    userLogin:(username: string, password: string) => void
+}
+
+export class LoginComponent extends React.Component<ILoginComponentProps, any>{
 
     //onMount 
     constructor(props: any) {
@@ -26,12 +32,15 @@ export class LoginComponent extends React.Component<any, any>{
         })
     }
 
-
+    submitLogin = async (e:SyntheticEvent) => {
+        e.preventDefault()
+        this.props.userLogin(this.state.username, this.state.password)       
+    }
 
     render() {
         return (
             <div id="login-div">
-                <Form>
+                <Form onSubmit={this.submitLogin}>
                     <FormGroup>
                         <Label for="exampleUsername">Username</Label>
                         <Input
@@ -54,11 +63,9 @@ export class LoginComponent extends React.Component<any, any>{
                             onChange={this.updatePassword}
                         />
                     </FormGroup>
-                    <Button color="primary">primary</Button>
+                    <Button color="primary">Login</Button>
                 </Form>
             </div>
         )
     }
-
-
 }
