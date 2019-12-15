@@ -1,10 +1,10 @@
 import React, { SyntheticEvent } from 'react'
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+import { Form, FormGroup, Label, Input, Button, Col } from 'reactstrap'
 //import { User } from '../../models/user'
 
 interface ILoginComponentProps {
     //user: User
-    userLogin:(username: string, password: string) => void
+    userLogin: (username: string, password: string) => void
 }
 
 export class LoginComponent extends React.Component<ILoginComponentProps, any>{
@@ -32,36 +32,40 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
         })
     }
 
-    submitLogin = async (e:SyntheticEvent) => {
+    submitLogin = async (e: SyntheticEvent) => {
         e.preventDefault()
-        this.props.userLogin(this.state.username, this.state.password)       
+        this.props.userLogin(this.state.username, this.state.password)
     }
 
     render() {
         return (
             <div id="login-div">
                 <Form onSubmit={this.submitLogin}>
-                    <FormGroup>
-                        <Label for="exampleUsername">Username</Label>
-                        <Input
-                            type="text"
-                            name="Username"
-                            id="exampleUsername"
-                            placeholder="username"
-                            value={this.state.username}
-                            onChange={this.updateUsername}
-                        />
+                    <FormGroup row>
+                        <Label for="exampleUsername" sm={2}>Username: </Label>
+                        <Col sm={10}>
+                            <Input
+                                type="text"
+                                name="Username"
+                                id="exampleUsername"
+                                placeholder="username"
+                                value={this.state.username}
+                                onChange={this.updateUsername}
+                            />
+                        </Col>
                     </FormGroup>
-                    <FormGroup>
-                        <Label for="examplePassword">Password</Label>
-                        <Input
-                            type="password"
-                            name="password"
-                            id="examplePassword"
-                            placeholder="password"
-                            value={this.state.password}
-                            onChange={this.updatePassword}
-                        />
+                    <FormGroup row>
+                        <Label for="examplePassword" sm={2}>Password: </Label>
+                        <Col sm={10}>
+                            <Input
+                                type="password"
+                                name="Password"
+                                id="examplePassword"
+                                placeholder="password"
+                                value={this.state.password}
+                                onChange={this.updatePassword}
+                            />
+                        </Col>
                     </FormGroup>
                     <Button color="primary">Login</Button>
                 </Form>

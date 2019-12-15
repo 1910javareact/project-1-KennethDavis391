@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardBody, CardText, CardFooter } from 'reactstrap'
+import { Card, CardBody, CardText, CardFooter, Button } from 'reactstrap'
 
 interface IReimbursementComponentProps {
     author: number;
@@ -39,17 +39,20 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
                     <CardText>Date Submitted: {this.props.dateSubmitted}</CardText>
                     <CardText>Date Resolved: {this.props.dateResolved}</CardText>
                     <CardText>Resolver: {this.props.resolver}</CardText>
+                    <Button outline color="success">Approve </Button>
+                    <Button outline color="danger">  Deny  </Button>
+                    <CardText className="text-center" onClick={this.expandReimbursement}> ^ </CardText>
                 </>
             )
         } else {
-            return (<CardText>Click for more details</CardText>)
+            return (<CardText className="text-center" onClick={this.expandReimbursement}> V </CardText>)
         }
     }
 
     render() {
         return (
             <div>
-                <Card className="text-left" onClick={this.expandReimbursement}>
+                <Card className="text-left">
                     <CardBody>
                         <CardText>Author: {this.props.author}</CardText>
                         <CardText>Amount: {this.props.amount}</CardText>

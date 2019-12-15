@@ -1,4 +1,4 @@
-import {ersUserClient} from './ers-user-client'
+import {ersUserClient} from './ers-client'
 
 export async function ersUserLogin(username:string, password:string){
     const credentials = {
