@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import  LoginComponent  from './components/login-component/LoginContainer';
 import { store } from './store';
+import { ReimbursementComponent } from './components/reimbursement-component/ReimbursementComponent';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
       <Provider store={store}>
         <Router>
           <Switch>
+            <Route path='/test' component={ReimbursementComponent}></Route>
             <Route path='/login' component={LoginComponent}></Route>
             <Route path='/' component={LoginComponent}></Route>
           </Switch>
