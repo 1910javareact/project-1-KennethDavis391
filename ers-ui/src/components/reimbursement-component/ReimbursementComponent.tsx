@@ -1,15 +1,11 @@
 import React from 'react'
 import { Card, CardBody, CardText, CardFooter, Button } from 'reactstrap'
+import { Reimbursement } from '../../models/reimbursement'
 
 interface IReimbursementComponentProps {
-    author: number;
-    amount: number;
+    reimbursement: Reimbursement;
     type: string;
     status: string;
-    description: string;
-    dateSubmitted: number;
-    dateResolved: number;
-    resolver: number;
 }
 
 interface IReimbursementComponentState {
@@ -35,10 +31,10 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
         if (this.state.expanded) {
             return (
                 <>
-                    <CardText>Description: {this.props.description}</CardText>
-                    <CardText>Date Submitted: {this.props.dateSubmitted}</CardText>
-                    <CardText>Date Resolved: {this.props.dateResolved}</CardText>
-                    <CardText>Resolver: {this.props.resolver}</CardText>
+                    <CardText>Description: {this.props.reimbursement.description}</CardText>
+                    <CardText>Date Submitted: {this.props.reimbursement.dateSubmitted}</CardText>
+                    <CardText>Date Resolved: {this.props.reimbursement.dateResolved}</CardText>
+                    <CardText>Resolver: {this.props.reimbursement.resolver}</CardText>
                     <Button outline color="success">Approve </Button>
                     <Button outline color="danger">  Deny  </Button>
                     <CardText className="text-center" onClick={this.expandReimbursement}> ^ </CardText>
@@ -54,8 +50,8 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
             <div>
                 <Card className="text-left">
                     <CardBody>
-                        <CardText>Author: {this.props.author}</CardText>
-                        <CardText>Amount: {this.props.amount}</CardText>
+                        <CardText>Author: {this.props.reimbursement.author}</CardText>
+                        <CardText>Amount: {this.props.reimbursement.amount}</CardText>
                         <CardText>Type: {this.props.type}</CardText>
                         <CardText>Status: {this.props.status}</CardText>
                         <this.LongReimbursement />

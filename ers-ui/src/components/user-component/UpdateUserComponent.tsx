@@ -1,24 +1,13 @@
 import React, { SyntheticEvent } from 'react'
-import { Role } from '../../models/user'
+import { Role, User } from '../../models/user'
 import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
 
 interface IUpdateUserComponentProps{
-    userId: number
-    username: string
-    password: string
-    firstName: string
-    lastName: string
-    email: string
-    roles: Role[]
+    user: User
 }
 
 interface IUpdateUserComponentState{
-    username: string
-    password: string
-    firstName: string
-    lastName: string
-    email: string
-    roles: Role[]
+    user: User
     userChecked: boolean
     financeManagerChecked: boolean
     adminChecked: boolean
@@ -29,17 +18,12 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
     constructor(props: any) {
         super(props)
         this.state = {
-            username: this.props.username,
-            password: '',
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
-            email: this.props.email,
-            roles: [],//this.props.roles,
+            user: this.props.user,
             userChecked: false,
             financeManagerChecked: false,
             adminChecked: false,
         }
-        for(let role of this.state.roles){
+        for(let role of this.state.user.roles){
             if(role.roleId === 1){
                 this.state = {
                     ...this.state,
@@ -64,35 +48,50 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
     updateUsername = (input: any) => {
         this.setState({
             ...this.state,
-            username: input.target.value
+            user: {
+                ...this.state.user,
+                username:input.target.value
+            }
         })
     }
 
     updatePassword = (input: any) => {
         this.setState({
             ...this.state,
-            password: input.target.value
+            user: {
+                ...this.state.user,
+                password: input.target.value
+            }
         })
     }
 
     updateFirstName = (input: any) => {
         this.setState({
             ...this.state,
-            firstName: input.target.value
+            user: {
+                ...this.state.user,
+                firstName: input.target.value
+            }
         })
     }
 
     updateLastName = (input: any) => {
         this.setState({
             ...this.state,
-            lastName: input.target.value
+            user: {
+                ...this.state.user,
+                lastName: input.target.value
+            }
         })
     }
 
     updateEmail = (input: any) => {
         this.setState({
             ...this.state,
-            email: input.target.value
+            user: {
+                ...this.state.user,
+                email: input.target.value
+            }
         })
     }
 
@@ -123,25 +122,37 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
     updateRoles = () => {        
         this.setState({
             ...this.state,
-            roles: []
+            user: {
+                ...this.state.user,
+                roles: []
+            }
         })
 
         if(this.state.userChecked){
             this.setState({
                 ...this.state,
-                roles: [{role: 'User', roleId: 3}]
+                user: {
+                    ...this.state.user,
+                    roles: [{role: 'User', roleId: 3}]
+                }
             })
         }
         if(this.state.financeManagerChecked){
             this.setState({
                 ...this.state,
-                roles: [...this.state.roles, {role: 'Finance Manager', roleId: 1}]
+                user: {
+                    ...this.state.user,
+                    roles: [...this.state.user.roles, {role: 'Finance Manager', roleId: 1}]
+                }
             })
         }
         if(this.state.adminChecked){
             this.setState({
                 ...this.state,
-                roles: [...this.state.roles, {role: 'Admin', roleId: 2}]
+                user: {
+                    ...this.state.user,
+                    roles: [...this.state.user.roles, {role: 'Admin', roleId: 2}]
+                }
             })
         }
     }
@@ -158,31 +169,31 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
                     <FormGroup row>
                         <Label for="exampleUsername" sm={2}>Username: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="username" id="exampleUsername" placeholder="Username" value={this.state.username} onChange={this.updateUsername}/>
+                            <Input type="text" name="username" id="exampleUsername" placeholder="Username" value={this.state.user.username} onChange={this.updateUsername}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="examplePassword" sm={2}>Password: </Label>
                         <Col sm={10}>
-                            <Input type="password" name="password" id="examplePassword" placeholder="Password" value={this.state.password} onChange={this.updatePassword}/>
+                            <Input type="password" name="password" id="examplePassword" placeholder="Password" value={this.state.user.password} onChange={this.updatePassword}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleFirstName" sm={2}>FirstName: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="firstname" id="exampleFirstName" placeholder="Fist Name" value={this.state.firstName} onChange={this.updateFirstName}/>
+                            <Input type="text" name="firstname" id="exampleFirstName" placeholder="Fist Name" value={this.state.user.firstName} onChange={this.updateFirstName}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleLastName" sm={2}>Last Name: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="lastname" id="exampleLastName" placeholder="Last Name" value={this.state.lastName} onChange={this.updateLastName}/>
+                            <Input type="text" name="lastname" id="exampleLastName" placeholder="Last Name" value={this.state.user.lastName} onChange={this.updateLastName}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleEmail" sm={2}>Email: </Label>
                         <Col sm={10}>
-                            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" value={this.state.email} onChange={this.updateEmail}/>
+                            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" value={this.state.user.email} onChange={this.updateEmail}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
