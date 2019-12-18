@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react'
-import { Role, User } from '../../models/user'
+import { User } from '../../models/user'
 import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
 
 interface IUpdateUserComponentProps{

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, CardText, Button, CardFooter } from 'reactstrap'
-import { Role, User } from '../../models/user'
+import { User } from '../../models/user'
 import { Link } from 'react-router-dom'
 
 interface IUserComponentProps {
@@ -24,7 +24,6 @@ export class UserComponent extends React.PureComponent<IUserComponentProps>{
                                 Update User
                             </Button>
                         </Link>
-
                     </CardBody>
                     <CardFooter></CardFooter>
                 </Card>
