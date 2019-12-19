@@ -9,7 +9,6 @@ interface ILoginComponentProps {
 
 export class LoginComponent extends React.Component<ILoginComponentProps, any>{
 
-    //onMount 
     constructor(props: any) {
         super(props)
         this.state = {
