@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react'
 import { Form, FormGroup, Label, Input, Button, Col } from 'reactstrap'
+import { Link } from 'react-router-dom'
 //import { User } from '../../models/user'
 
 interface ILoginComponentProps {
@@ -68,6 +69,11 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
                     </FormGroup>
                     <Button color="primary">Login</Button>
                 </Form>
+                <div>
+                    <Link to='/test'>
+                        <p>test component</p>
+                    </Link>
+                </div>
             </div>
         )
     }

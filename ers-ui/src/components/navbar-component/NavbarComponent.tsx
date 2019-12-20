@@ -24,15 +24,17 @@ interface INavBarComponentProps{
 interface INavBarComponentState{
     isOpen:boolean,
     userIdSearch:number,
+    idChanged: boolean
 }
 
-export class NavbarComponent extends React.Component<INavBarComponentProps, INavBarComponentState>{
+export class NavbarComponent extends React.Component<any, INavBarComponentState>{
 
     constructor(props:any){
         super(props)
         this.state={
             isOpen: false,
             userIdSearch: 0,
+            idChanged: false,
         }
     }
 
@@ -54,9 +56,23 @@ export class NavbarComponent extends React.Component<INavBarComponentProps, INav
         })
     }
 
-    submitUserIdSearch = (e: SyntheticEvent) => {
+    submitUserIdSearch = async (e: SyntheticEvent) => {
         e.preventDefault()        
-        this.props.changeUserId(this.state.userIdSearch)
+        await this.props.changeUserId(this.state.userIdSearch)
+        this.setState({
+            ...this.state,
+            idChanged: true
+        })
+    }
+
+    componentDidUpdate(){
+        if(this.state.idChanged){
+            this.props.rerender()
+            this.setState({
+                ...this.state,
+                idChanged: false
+            })
+        }
     }
 
     render() {
@@ -100,9 +116,11 @@ export class NavbarComponent extends React.Component<INavBarComponentProps, INav
                                         Options
                             </DropdownToggle>
                                     <DropdownMenu right>
-                                        <DropdownItem>
-                                            <Link to='/login'>Logout</Link>
-                                        </DropdownItem>
+                                        <Link to='/login'>
+                                            <DropdownItem>
+                                                Logout
+                                            </DropdownItem>
+                                        </Link>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
                             </Nav>

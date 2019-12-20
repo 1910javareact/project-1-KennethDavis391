@@ -7,11 +7,8 @@ const initialState: INavbarState = {
 }
 
 export const navbarReducer = (state = initialState, action:any) =>{    
-    console.log(action.type)
     switch (action.type){
-        case navbarTypes.USER_ID_CHANGED :{
-            console.log('got through with action type');
-            
+        case navbarTypes.USER_ID_CHANGED :{            
             return{
             ...state,
             userId: action.payload.userId
