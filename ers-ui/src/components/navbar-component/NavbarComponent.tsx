@@ -118,9 +118,11 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                         denied Reimbursements
                                     </DropdownItem>
                                     <DropdownItem divider />
-                                    <DropdownItem>
-                                        Make New Riembursement Request
-                                    </DropdownItem>
+                                    <Link to='/reimbursements/submit'>
+                                        <DropdownItem>
+                                            Make New Riembursement Request
+                                        </DropdownItem>
+                                    </Link>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                             <UncontrolledDropdown nav inNavbar>
@@ -128,9 +130,11 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     Users
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem>
-                                        All Users
-                                    </DropdownItem>
+                                    <Link to='/users'>
+                                        <DropdownItem>
+                                            All Users
+                                        </DropdownItem>
+                                    </Link>
                                     <DropdownItem divider />
                                     <DropdownItem>
                                         Search User By Id

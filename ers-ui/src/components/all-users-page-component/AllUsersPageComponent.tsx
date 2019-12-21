@@ -3,6 +3,7 @@ import  NavbarComponent  from '../navbar-component/NavbarContainer'
 import { MultiUserComponent } from '../user-component/multi-user-component/MultiUserComponent'
 import { User } from '../../models/user'
 import { ersGetAllUsers } from '../../remote/ers-clients/ers-user'
+import { Redirect } from 'react-router'
 
 interface IAllUsersPageComponentProps{
     token: string
@@ -38,10 +39,13 @@ export class AllUsersPageComponent extends React.Component<IAllUsersPageComponen
 
     render(){
         return(
+            this.props.token?
             <div>
                 <NavbarComponent></NavbarComponent>
                 <MultiUserComponent users={this.state.users}></MultiUserComponent>
             </div>
+            :
+            <Redirect to='/login'/>
         )
     }
 }

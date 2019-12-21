@@ -1,9 +1,12 @@
 import React, { SyntheticEvent } from 'react'
 import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
+import { User } from '../../models/user'
+import { ersSubmitReimbursement } from '../../remote/ers-clients/ers-reimbursement'
+import { Redirect } from 'react-router'
 
 interface ISubmitReimbursementComponentProps {
-    author: number
-    //some function
+    user: User
+    token: String
 }
 
 interface ISubmitReimbursementComponentState {
@@ -45,12 +48,14 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
         
     }
 
-    submitReimbursement = (e:SyntheticEvent) =>{
+    submitReimbursement = async (e:SyntheticEvent) =>{
         e.preventDefault()
+        await ersSubmitReimbursement(this.props.user.userId,this.state.amount,this.state.type,this.state.description,this.props.token)
     }
 
     render() {
         return (
+            this.props.user?
             <div>
                 <Form onSubmit={this.submitReimbursement}>
                     <FormGroup row>
@@ -102,6 +107,8 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
                 </Form>
 
             </div>
+            :
+            <Redirect to='/login'/>
         )
     }
 }
