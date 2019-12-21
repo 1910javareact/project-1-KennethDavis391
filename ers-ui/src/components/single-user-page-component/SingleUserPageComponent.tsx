@@ -68,9 +68,9 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
         }
     }
 
-    async componentDidUpdate(){
-        if(this.state.realUpdate){
-            const {userid} = this.props.match.params
+    async componentDidUpdate() {
+        if (this.state.realUpdate) {
+            const { userid } = this.props.match.params
             try {
                 let u = await ersGetUserById(userid, this.props.token)
                 if (u.status === 200) {
@@ -100,19 +100,21 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
                     ...this.state,
                     reimbursements: []
                 })
+            } finally {
+                this.setState({
+                    ...this.state,
+                    realUpdate: false
+                })
             }
-            this.setState({
-                ...this.state,
-                realUpdate: false
-            })
+
         }
     }
 
-    updateUserId = async (userid: number) => { 
+    updateUserId = async (userid: number) => {
         this.setState({
             ...this.state,
             realUpdate: true
-        })      
+        })
         // try {
         //     let u = await ersGetUserById(userid, this.props.token)
         //     if (u.status === 200) {
@@ -148,18 +150,18 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
     render() {
         return (
             this.props.token ?
-            <div>
-                <NavbarComponent match={this.props.match} updateUserId={this.updateUserId}></NavbarComponent>
-                <UserComponent user={this.state.user}></UserComponent>
-                <Card className='text-left'>
-                    <CardHeader>
-                        <h2>Reimbursement Requests</h2>
-                    </CardHeader>
-                </Card>
-                <MultiReimbursementComponent reimbursements={this.state.reimbursements}></MultiReimbursementComponent>
-            </div>
-            :
-            <Redirect to='/login'/>
+                <div>
+                    <NavbarComponent match={this.props.match} updateUserId={this.updateUserId}></NavbarComponent>
+                    <UserComponent user={this.state.user}></UserComponent>
+                    <Card className='text-left'>
+                        <CardHeader>
+                            <h2>Reimbursement Requests</h2>
+                        </CardHeader>
+                    </Card>
+                    <MultiReimbursementComponent reimbursements={this.state.reimbursements}></MultiReimbursementComponent>
+                </div>
+                :
+                <Redirect to='/login' />
         )
     }
 }

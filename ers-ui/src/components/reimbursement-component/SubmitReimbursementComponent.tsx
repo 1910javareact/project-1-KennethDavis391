@@ -50,7 +50,17 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
 
     submitReimbursement = async (e:SyntheticEvent) =>{
         e.preventDefault()
-        await ersSubmitReimbursement(this.props.user.userId,this.state.amount,this.state.type,this.state.description,this.props.token)
+        try{
+            let r = await ersSubmitReimbursement(this.props.user.userId,this.state.amount,this.state.type,this.state.description,this.props.token)
+            if(r.status === 200){
+
+            } else {
+                
+            }
+        }catch(e){
+
+        }
+        
     }
 
     render() {

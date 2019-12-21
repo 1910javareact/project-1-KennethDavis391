@@ -1,9 +1,11 @@
 import React, { SyntheticEvent } from 'react'
 import { User } from '../../models/user'
 import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
+import { ersUpdateUser } from '../../remote/ers-clients/ers-user'
 
 interface IUpdateUserComponentProps{
     user: User
+    token: String
 }
 
 interface IUpdateUserComponentState{
@@ -11,6 +13,7 @@ interface IUpdateUserComponentState{
     userChecked: boolean
     financeManagerChecked: boolean
     adminChecked: boolean
+    updateComponent: boolean
 }
 
 export class UpdateUserComponent extends React.Component<IUpdateUserComponentProps, IUpdateUserComponentState>{
@@ -18,30 +21,69 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
     constructor(props: any) {
         super(props)
         this.state = {
-            user: this.props.user,
+            user: new User(0, '', '', '', '', '', []),
             userChecked: false,
             financeManagerChecked: false,
             adminChecked: false,
+            updateComponent: true
         }
-        for(let role of this.state.user.roles){
-            if(role.roleId === 1){
-                this.state = {
-                    ...this.state,
-                    financeManagerChecked: true,
+    }
+
+    // componentDidMount(){
+    //     this.setState({
+    //         ...this.state,
+    //         user: this.props.user,
+    //         userChecked: false,
+    //         financeManagerChecked: false,
+    //         adminChecked: false,
+    //     })
+    //     for(let role of this.state.user.roles){
+    //         if(role.roleId === 1){
+    //             this.setState ({
+    //                 ...this.state,
+    //                 financeManagerChecked: true,
+    //             })
+    //         }
+    //         if(role.roleId === 2){
+    //             this.setState ({
+    //                 ...this.state,
+    //                 adminChecked: true,
+    //             })
+    //         }
+    //         if(role.roleId === 3){
+    //             this.setState ({
+    //                 ...this.state,
+    //                 userChecked: true,
+    //             })
+    //         }
+    //     }
+    // }
+
+    componentDidUpdate(){
+        if(this.state.updateComponent){
+            let financeManagerChecked = false
+            let adminChecked = false
+            let userChecked = false
+
+            for(let role of this.props.user.roles){
+                if(role.roleId === 1){
+                    financeManagerChecked = true
+                }
+                if(role.roleId === 2){
+                    adminChecked = true
+                }
+                if(role.roleId === 3){
+                    userChecked = true
                 }
             }
-            if(role.roleId === 2){
-                this.state = {
-                    ...this.state,
-                    adminChecked: true,
-                }
-            }
-            if(role.roleId === 3){
-                this.state = {
-                    ...this.state,
-                    userChecked: true,
-                }
-            }
+            this.setState({
+                ...this.state,
+                user: this.props.user,
+                financeManagerChecked: financeManagerChecked,
+                adminChecked: adminChecked,
+                userChecked: userChecked,
+                updateComponent: false
+            })
         }
     }
 
@@ -159,7 +201,16 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
 
     submitUpdate = async (e: SyntheticEvent) => {
         e.preventDefault()
-        //this.props.updateUser(this.state.username, this.state.password, this.state.firstName, this.state.lastName, this.state.email, this.state.roles)
+        try{
+            let u = await ersUpdateUser(this.state.user, this.props.token)
+            if(u.status === 200){
+
+            }else{
+
+            }
+        }catch(e){
+
+        }
     }
 
     render() {
@@ -201,7 +252,7 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
                         <Col sm={{ size: 10 }}>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="checkbox" id="checkbox1" value="{role: 'User', roleId: 3}" defaultChecked={this.state.userChecked} onChange={this.userBoxClicked}/>
+                                    <Input type="checkbox" id="checkbox1" value="{role: 'User', roleId: 3}" checked={this.state.userChecked} onChange={this.userBoxClicked}/>
                                     User
                                 </Label>
                             </FormGroup>

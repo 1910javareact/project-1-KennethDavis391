@@ -95,6 +95,12 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
         })
     }
 
+    changeStatus = () =>{
+        if(this.props.updateStatus){
+            this.props.updateStatus()
+        }
+    }
+
     render() {
         return (
             <div>
@@ -108,15 +114,21 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     Reimbursements
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem>
-                                        Pending Reimbursements
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        approved Reimbursements
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        denied Reimbursements
-                                    </DropdownItem>
+                                    <Link to='/reimbursements/status/1'>
+                                        <DropdownItem onClick={this.changeStatus}>
+                                            Pending Reimbursements
+                                        </DropdownItem>
+                                    </Link>
+                                    <Link to='/reimbursements/status/2'>
+                                        <DropdownItem onClick={this.changeStatus}>
+                                            approved Reimbursements
+                                        </DropdownItem>
+                                    </Link>
+                                    <Link to='/reimbursements/status/3'>
+                                        <DropdownItem onClick={this.changeStatus}>
+                                            denied Reimbursements
+                                        </DropdownItem>
+                                    </Link>
                                     <DropdownItem divider />
                                     <Link to='/reimbursements/submit'>
                                         <DropdownItem>

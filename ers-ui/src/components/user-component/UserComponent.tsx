@@ -27,7 +27,7 @@ export class UserComponent extends React.PureComponent<IUserComponentProps>{
                         <CardText>Email: {this.props.user.email}</CardText>
                         <CardText>Username: {this.props.user.username}</CardText>
                         <CardText><p>Roles:</p> <ul>{roles}</ul></CardText>
-                        <Link to='/login'>
+                        <Link to={'/users/update/' + this.props.user.userId}>
                             <Button>
                                 Update User
                             </Button>
