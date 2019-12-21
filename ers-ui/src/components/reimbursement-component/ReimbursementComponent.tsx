@@ -1,9 +1,11 @@
 import React from 'react'
 import { Card, CardBody, CardText, CardFooter, Button } from 'reactstrap'
 import { Reimbursement } from '../../models/reimbursement'
+import { ersPatchReimbursement } from '../../remote/ers-clients/ers-reimbursement'
 
 interface IReimbursementComponentProps {
-    reimbursement: Reimbursement;
+    reimbursement: Reimbursement
+    token: String
 }
 
 interface IReimbursementComponentState {
@@ -64,6 +66,32 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
         })
     }
 
+    approveReimbursement = async () => {
+        try{
+            let r = await ersPatchReimbursement(this.props.reimbursement.reimbursementId, 2, this.props.token)
+            if(r.status === 200){
+
+            }else{
+
+            }
+        }catch (e){
+
+        }
+    }
+
+    denyReimbursement = async () => {
+        try{
+            let r = await ersPatchReimbursement(this.props.reimbursement.reimbursementId, 3, this.props.token)
+            if(r.status === 200){
+
+            }else{
+                
+            }
+        }catch (e){
+
+        }
+    }
+
     LongReimbursement = () => {
         if (this.state.expanded) {
             return (
@@ -72,13 +100,13 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
                     <CardText>Date Submitted: {this.props.reimbursement.dateSubmitted}</CardText>
                     <CardText>Date Resolved: {this.props.reimbursement.dateResolved}</CardText>
                     <CardText>Resolver: {this.props.reimbursement.resolver}</CardText>
-                    <Button outline color="success">Approve </Button>
-                    <Button outline color="danger">  Deny  </Button>
-                    <CardText className="text-center" onClick={this.expandReimbursement}> ^ </CardText>
+                    <Button outline color="success" onClick={this.approveReimbursement}>Approve </Button>
+                    <Button outline color="danger" onClick={this.denyReimbursement}>  Deny  </Button>
+                    <CardText className="text-center" onClick={this.expandReimbursement}> <Button>Display Less</Button> </CardText>
                 </>
             )
         } else {
-            return (<CardText className="text-center" onClick={this.expandReimbursement}> V </CardText>)
+            return (<CardText className="text-center" onClick={this.expandReimbursement}> <Button>Display All</Button> </CardText>)
         }
     }
 

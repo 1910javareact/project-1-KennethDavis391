@@ -1,6 +1,6 @@
 import React from 'react'
 import { Reimbursement } from '../../../models/reimbursement'
-import { ReimbursementComponent } from '../ReimbursementComponent'
+import ReimbursementComponent from '../ReimbursementContainer'
 
 interface MultiReimbursementComponentProps{
     reimbursements: Reimbursement[]

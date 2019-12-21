@@ -88,3 +88,36 @@ export async function ersGetReimbursementsByStatus(status: number, token: string
         throw new Error('Something Went Wrong')
     }
 }
+
+export async function ersPatchReimbursement(reimbursementId:number, status:number, token:String){
+
+    const body = {
+        reimbursementId: reimbursementId,
+        status: status,
+    }
+
+    const tokenHeader ={
+        headers:{
+            token:token,
+        }
+    }
+
+    try{
+        const response = await ersUserClient.patch('/reimbursements',body, tokenHeader)
+        if(response.status === 200){
+            return{
+                status: response.status,
+                body: response.data,
+                header: response.headers
+            }
+        }else{
+            return {
+                status: response.status,
+                body: undefined
+            }
+        }
+    }catch(e){
+        console.log(e);
+        throw new Error('Something Went Wrong')
+    }
+}
