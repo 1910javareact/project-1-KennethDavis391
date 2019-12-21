@@ -17,7 +17,10 @@ export class UserComponent extends React.PureComponent<IUserComponentProps>{
         return (
             <div>
                 <Card className="text-left">
-                    <CardHeader>UserId: {this.props.user.userId}</CardHeader>
+                    <CardHeader>
+                        <h2>User</h2>
+                        <p>UserId: {this.props.user.userId}</p>
+                    </CardHeader>
                     <CardBody>
                         <CardText>First Name: {this.props.user.firstName}</CardText>
                         <CardText>Last Name: {this.props.user.lastName}</CardText>

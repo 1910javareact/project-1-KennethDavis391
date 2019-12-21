@@ -51,3 +51,30 @@ export async function ersGetUserById(userId: number, token: string){
         throw new Error('Something Went Wrong')
     }
 }
+
+export async function ersGetAllUsers(token: string) {
+    const tokenHeader = {
+        headers:{
+            token: token,
+        }
+    }
+
+    try{
+        const response = await ersUserClient.get('/users',tokenHeader)
+        if(response.status === 200){
+            return{
+                status: response.status,
+                body: response.data,
+                header: response.headers
+            }
+        }else{
+            return{
+                status: response.status,
+                body: undefined
+            }
+        }
+    }catch(e){
+        console.log(e);
+        throw new Error('Something Went Wrong')
+    }
+}

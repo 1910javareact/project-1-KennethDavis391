@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import  LoginComponent  from './components/login-component/LoginContainer';
 import { store } from './store';
-import  SingleUserPageComponent  from './components/single-user-page-component/SingleUserPageContainer';
+import  AllUsersPageComponent  from './components/all-users-page-component/AllUsersPageContainer';
 
 const App: React.FC = () => {
   return (
@@ -12,7 +12,7 @@ const App: React.FC = () => {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route path='/test' component={SingleUserPageComponent}></Route>
+            <Route path='/test' component={AllUsersPageComponent}></Route>
             <Route path='/login' component={LoginComponent}></Route>
             <Route path='/' component={LoginComponent}></Route>
           </Switch>

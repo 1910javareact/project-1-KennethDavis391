@@ -6,6 +6,7 @@ import { User } from '../../models/user'
 import { Reimbursement } from '../../models/reimbursement'
 import { ersGetReimbursementsById } from '../../remote/ers-clients/ers-reimbursement'
 import { ersGetUserById } from '../../remote/ers-clients/ers-user'
+import { Card, CardHeader } from 'reactstrap'
 
 interface ISingleUserPageComponentProps{
     //getUserById:(userId: number, token: string) => User
@@ -57,7 +58,7 @@ export class SingleUserPageComponent extends React.Component<ISingleUserPageComp
             console.log(e)
             this.setState({
                 ...this.state,
-                user: new User(0,'','','','','',[])
+                user: new User(this.props.userId,'','','','','',[])
             })
         }
         try{
@@ -82,6 +83,11 @@ export class SingleUserPageComponent extends React.Component<ISingleUserPageComp
             <div>
                 <NavbarComponent rerender={this.rerender}></NavbarComponent>
                 <UserComponent user={this.state.user}></UserComponent>
+                <Card className='text-left'>
+                    <CardHeader>
+                        <h2>Reimbursement Requests</h2>
+                    </CardHeader>
+                </Card>
                 <MultiReimbursementComponent reimbursements={this.state.reimbursements}></MultiReimbursementComponent>
             </div>
         )

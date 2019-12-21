@@ -16,22 +16,22 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-interface INavBarComponentProps{
+interface INavBarComponentProps {
     changeUserId: (userId: number) => void
     userId: number
 }
 
-interface INavBarComponentState{
-    isOpen:boolean,
-    userIdSearch:number,
+interface INavBarComponentState {
+    isOpen: boolean,
+    userIdSearch: number,
     idChanged: boolean
 }
 
 export class NavbarComponent extends React.Component<any, INavBarComponentState>{
 
-    constructor(props:any){
+    constructor(props: any) {
         super(props)
-        this.state={
+        this.state = {
             isOpen: false,
             userIdSearch: 0,
             idChanged: false,
@@ -45,7 +45,7 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
     toggle = () => {
         this.setState({
             ...this.state,
-            isOpen:!this.state.isOpen
+            isOpen: !this.state.isOpen
         })
     };
 
@@ -57,16 +57,17 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
     }
 
     submitUserIdSearch = async (e: SyntheticEvent) => {
-        e.preventDefault()        
+        e.preventDefault()
         await this.props.changeUserId(this.state.userIdSearch)
         this.setState({
             ...this.state,
-            idChanged: true
+            idChanged: true,
+            userIdSearch: 0
         })
     }
 
-    componentDidUpdate(){
-        if(this.state.idChanged){
+    componentDidUpdate() {
+        if (this.state.idChanged) {
             this.props.rerender()
             this.setState({
                 ...this.state,
@@ -86,35 +87,50 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
                                     Reimbursements
-                            </DropdownToggle>
+                                </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem>
                                         Pending Reimbursements
-                                </DropdownItem>
+                                    </DropdownItem>
                                     <DropdownItem>
                                         approved Reimbursements
-                                </DropdownItem>
+                                    </DropdownItem>
                                     <DropdownItem>
                                         denied Reimbursements
-                                </DropdownItem>
+                                    </DropdownItem>
                                     <DropdownItem divider />
                                     <DropdownItem>
                                         Make New Riembursement Request
-                                </DropdownItem>
+                                    </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
-                            <Form onSubmit={this.submitUserIdSearch}>
-                                <FormGroup>
-                                    <Input type="text" name="text" id="search-users-nav" placeholder="Search by User Id" value={this.state.userIdSearch} onChange={this.updateUserIdSearch}/>
-                                </FormGroup>
-                            </Form>
+                            <UncontrolledDropdown nav inNavbar>
+                                <DropdownToggle nav caret>
+                                    Users
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem>
+                                        All Users
+                                    </DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem>
+                                        Search User By Id
+                                    </DropdownItem>
+                                    <Form onSubmit={this.submitUserIdSearch}>
+                                        <FormGroup>
+                                            <Input type="text" name="text" id="search-users-nav" placeholder="Search by User Id" value={this.state.userIdSearch} onChange={this.updateUserIdSearch} />
+                                        </FormGroup>
+                                    </Form>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
+
                         </Nav>
                         <NavbarText>
                             <Nav>
                                 <UncontrolledDropdown nav inNavbar>
                                     <DropdownToggle nav caret>
                                         Options
-                            </DropdownToggle>
+                                    </DropdownToggle>
                                     <DropdownMenu right>
                                         <Link to='/login'>
                                             <DropdownItem>
