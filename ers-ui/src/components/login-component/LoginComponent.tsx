@@ -1,10 +1,10 @@
 import React, { SyntheticEvent } from 'react'
 import { Form, FormGroup, Label, Input, Button, Col } from 'reactstrap'
-import { Link } from 'react-router-dom'
-//import { User } from '../../models/user'
+import { Redirect } from 'react-router-dom'
+import { User } from '../../models/user'
 
 interface ILoginComponentProps {
-    //user: User
+    user: User
     userLogin: (username: string, password: string) => void
 }
 
@@ -14,7 +14,8 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            userLogedIn: false
         }
     }
 
@@ -34,7 +35,17 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
 
     submitLogin = async (e: SyntheticEvent) => {
         e.preventDefault()
-        this.props.userLogin(this.state.username, this.state.password)
+        await this.props.userLogin(this.state.username, this.state.password)
+        if(this.props.user){
+            this.setState({
+                ...this.state,
+                userLogedIn: true
+            })
+        }
+    }
+
+    goToHome = () => {
+        return (<Redirect to={'/users/userid/' + this.props.user.userId} />)
     }
 
     render() {
@@ -69,11 +80,7 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
                     </FormGroup>
                     <Button color="primary">Login</Button>
                 </Form>
-                <div>
-                    <Link to='/test'>
-                        <p>test component</p>
-                    </Link>
-                </div>
+            {this.state.userLogedIn && this.goToHome()}
             </div>
         )
     }

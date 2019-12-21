@@ -14,17 +14,17 @@ import {
     FormGroup,
     Input,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-interface INavBarComponentProps {
-    changeUserId: (userId: number) => void
-    userId: number
-}
+// interface INavBarComponentProps {
+//     changeUserId: (userId: number) => void
+//     userId: number
+// }
 
 interface INavBarComponentState {
     isOpen: boolean,
     userIdSearch: number,
-    idChanged: boolean
+    submitted: boolean,
 }
 
 export class NavbarComponent extends React.Component<any, INavBarComponentState>{
@@ -34,13 +34,17 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
         this.state = {
             isOpen: false,
             userIdSearch: 0,
-            idChanged: false,
+            submitted: false
         }
     }
 
-    async componentDidMount() {
-        this.props.changeUserId(this.props.userId)
-    }
+
+
+    // async componentDidMount() {
+    //     this.props.changeUserId(this.props.userId)
+    //     console.log(this.state.userId)
+    //     console.log(this.props.match.params.userid)
+    // }
 
     toggle = () => {
         this.setState({
@@ -56,31 +60,46 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
         })
     }
 
-    submitUserIdSearch = async (e: SyntheticEvent) => {
+    submitUserIdSearch = (e: SyntheticEvent) => {
         e.preventDefault()
-        await this.props.changeUserId(this.state.userIdSearch)
         this.setState({
             ...this.state,
-            idChanged: true,
-            userIdSearch: 0
+            submitted: true
         })
     }
 
+    redirect = () => {
+        return (<Redirect to={'/users/userid/' + this.state.userIdSearch} />)
+    }
+
     componentDidUpdate() {
-        if (this.state.idChanged) {
-            this.props.rerender()
-            this.setState({
-                ...this.state,
-                idChanged: false
-            })
+        if (this.props.updateUserId) {
+            if (this.state.submitted) {
+                this.setState({
+                    ...this.state,
+                    submitted: false
+                })
+                this.props.updateUserId()
+            }
+        }else{
+
         }
+
+    }
+
+    returnHome = () =>{
+        this.setState({
+            ...this.state,
+            userIdSearch: this.props.user.userId,
+            submitted: true
+        })
     }
 
     render() {
         return (
             <div>
                 <Navbar color="light" light expand="md">
-                    <NavbarBrand href="/">Dunder Mifflen</NavbarBrand>
+                    <Link to={'/users/userid/' + this.props.user.userId} onClick={this.returnHome}><NavbarBrand>Dunder Mifflen</NavbarBrand></Link>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav className="mr-auto" navbar>
@@ -132,7 +151,7 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                         Options
                                     </DropdownToggle>
                                     <DropdownMenu right>
-                                        <Link to='/login'>
+                                        <Link to='/login' onClick={this.props.clearState}>
                                             <DropdownItem>
                                                 Logout
                                             </DropdownItem>
@@ -143,6 +162,7 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                         </NavbarText>
                     </Collapse>
                 </Navbar>
+                {this.state.submitted && this.redirect()}
             </div >
         )
     }

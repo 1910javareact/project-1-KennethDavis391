@@ -9,7 +9,7 @@ export interface ILoginState {
 }
 
 export interface INavbarState {
-    userId: number
+    
 }
 
 export interface IState {

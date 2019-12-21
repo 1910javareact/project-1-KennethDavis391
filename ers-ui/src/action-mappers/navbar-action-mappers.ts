@@ -1,12 +1,11 @@
 export const navbarTypes = {
-    USER_ID_CHANGED: 'USER_ID_CHANGED'
+    STATE_CLEARED: 'STATE_CLEARED'
 }
 
-export const changeUserId = (userId: number) => {    
+export const clearState = () => {    
     return{
-        type: navbarTypes.USER_ID_CHANGED,
+        type: navbarTypes.STATE_CLEARED,
         payload: {
-            userId
         }
     }
 }

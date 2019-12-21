@@ -7,7 +7,6 @@ const mapStateToProps = (state: IState) => {
     return{
         user: state.login.user,
         token: state.login.token,
-        userId: state.navbar.userId,
     }
 }
 
