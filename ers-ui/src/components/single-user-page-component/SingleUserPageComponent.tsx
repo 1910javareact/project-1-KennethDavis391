@@ -127,7 +127,7 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
                     {this.state.invalidUserId && this.invalidUserId()}
                     <NavbarComponent match={this.props.match} updateUserId={this.updateUserId}></NavbarComponent>
                     <UserComponent currentUser={this.props.user} user={this.state.user}></UserComponent>
-                    <Card className='text-left'>
+                    <Card className='text-left requests-header'>
                         <CardHeader>
                             <h2>Reimbursement Requests</h2>
                         </CardHeader>

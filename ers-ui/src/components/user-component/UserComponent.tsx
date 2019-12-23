@@ -18,8 +18,8 @@ export class UserComponent extends React.PureComponent<IUserComponentProps>{
         for(let role of this.props.currentUser.roles){
             if(role.roleId === 2){
                 return (
-                    <div>
-                        <Card className="text-left">
+                    <div className='center'>
+                        <Card className="card-element text-left">
                             <CardHeader>
                                 <h2>User</h2>
                                 <p>UserId: {this.props.user.userId}</p>
@@ -43,8 +43,8 @@ export class UserComponent extends React.PureComponent<IUserComponentProps>{
             }
         }
         return (
-            <div>
-                <Card className="text-left">
+            <div className='center'>
+                <Card className="card-element text-left">
                     <CardHeader>
                         <h2>User</h2>
                         <p>UserId: {this.props.user.userId}</p>

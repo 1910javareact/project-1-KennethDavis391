@@ -163,8 +163,8 @@ export class ReimbursementComponent extends React.Component<IReimbursementCompon
 
     render() {
         return (
-            <div>
-                <Card className="text-left">
+            <div className="center">
+                <Card className="text-left card-element">
                     <CardBody>
                         <CardText>Author: {this.state.reimbursement.author}</CardText>
                         <CardText>Amount: {this.state.reimbursement.amount}</CardText>

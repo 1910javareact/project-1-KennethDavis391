@@ -216,43 +216,43 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
 
     render() {
         return (
-            <div>
+            <div className='form-div'>
                 {this.state.invalidUpdate && this.invalidUpdate()}
                 {this.state.validUpdate && this.validUpdate()}
-                <Form onSubmit={this.submitUpdate}>
-                    <FormGroup row>
+                <Form onSubmit={this.submitUpdate} className='submit-element'>
+                    <FormGroup row className='text-input'>
                         <Label for="exampleUsername" sm={2}>Username: </Label>
                         <Col sm={10}>
                             <Input type="text" name="username" id="exampleUsername" placeholder="Username" value={this.state.user.username} onChange={this.updateUsername} />
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup row className='text-input'>
                         <Label for="examplePassword" sm={2}>Password: </Label>
                         <Col sm={10}>
                             <Input type="password" name="password" id="examplePassword" placeholder="Password" value={this.state.user.password} onChange={this.updatePassword} />
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup row className='text-input'>
                         <Label for="exampleFirstName" sm={2}>FirstName: </Label>
                         <Col sm={10}>
                             <Input type="text" name="firstname" id="exampleFirstName" placeholder="Fist Name" value={this.state.user.firstName} onChange={this.updateFirstName} />
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup row className='text-input'>
                         <Label for="exampleLastName" sm={2}>Last Name: </Label>
                         <Col sm={10}>
                             <Input type="text" name="lastname" id="exampleLastName" placeholder="Last Name" value={this.state.user.lastName} onChange={this.updateLastName} />
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup row className='text-input'>
                         <Label for="exampleEmail" sm={2}>Email: </Label>
                         <Col sm={10}>
                             <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" value={this.state.user.email} onChange={this.updateEmail} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="checkbox2" sm={2}>Roles: </Label>
-                        <Col sm={{ size: 10 }}>
+                        <Label for="checkbox2" sm={2} id="roles-lable">Roles: </Label>
+                        <Col sm={{ size: 10 }} className='radio'>
                             <FormGroup check>
                                 <Label check>
                                     <Input type="checkbox" id="checkbox1" value="{role: 'User', roleId: 3}" checked={this.state.userChecked} onChange={this.userBoxClicked} />

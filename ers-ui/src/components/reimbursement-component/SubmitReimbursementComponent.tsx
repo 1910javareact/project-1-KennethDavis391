@@ -90,17 +90,17 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
     render() {
         return (
             this.props.token ?
-                <div>
+                <div className="form-div">
                     {this.state.invalidSubmit && this.invalidSubmit()}
                     {this.state.submitted && this.validSubmit()}
-                    <Form onSubmit={this.submitReimbursement}>
-                        <FormGroup row>
-                            <Label for="exampleAmount" sm={2}>Amount: $</Label>
+                    <Form onSubmit={this.submitReimbursement} className='submit-element'>
+                        <FormGroup row className='text-input'>
+                            <Label for="exampleAmount" sm={2} className='form-label'>Amount: $</Label>
                             <Col sm={10}>
                                 <Input type="number" name="amount" id="exampleAmount" placeholder="Amount" value={this.state.amount} onChange={this.updateAmount} />
                             </Col>
                         </FormGroup>
-                        <FormGroup tag="fieldset" row>
+                        <FormGroup tag="fieldset" row className='radio'>
                             <legend className="col-form-label col-sm-2">Type</legend>
                             <Col sm={10}>
                                 <FormGroup check>
@@ -129,8 +129,8 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
                                 </FormGroup>
                             </Col>
                         </FormGroup>
-                        <FormGroup row>
-                            <Label for="exampleDescription" sm={2}>Description:</Label>
+                        <FormGroup row className='text-input'>
+                            <Label for="exampleDescription" sm={2} className='form-label'>Description:</Label>
                             <Col sm={10}>
                                 <Input type="textarea" name="description" id="exampleDescription" value={this.state.description} onChange={this.updateDescription} />
                             </Col>

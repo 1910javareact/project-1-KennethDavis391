@@ -68,8 +68,8 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
         return (
             <div id="login-div">
                 {this.state.invalidCredentials && this.wrongUserOrPass()}
-                <Form onSubmit={this.submitLogin}>
-                    <FormGroup row>
+                <Form onSubmit={this.submitLogin} className='login-form'>
+                    <FormGroup row className="text-input">
                         <Label for="exampleUsername" sm={2}>Username: </Label>
                         <Col sm={10}>
                             <Input
@@ -82,7 +82,7 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
                             />
                         </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    <FormGroup row className="text-input">
                         <Label for="examplePassword" sm={2}>Password: </Label>
                         <Col sm={10}>
                             <Input

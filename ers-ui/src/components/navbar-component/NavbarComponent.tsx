@@ -129,19 +129,19 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     <UncontrolledDropdown nav inNavbar>
                                         <DropdownToggle nav caret>
                                             Users
-                                </DropdownToggle>
+                                        </DropdownToggle>
                                         <DropdownMenu right>
                                             <Link to='/users'>
                                                 <DropdownItem>
                                                     All Users
-                                        </DropdownItem>
+                                                </DropdownItem>
                                             </Link>
                                             <DropdownItem divider />
                                             <DropdownItem>
                                                 Search User By Id
-                                    </DropdownItem>
+                                            </DropdownItem>
                                             <Form onSubmit={this.submitUserIdSearch}>
-                                                <FormGroup>
+                                                <FormGroup className='text-input center'>
                                                     <Input type="text" name="text" id="search-users-nav" placeholder="Search by User Id" value={this.state.userIdSearch} onChange={this.updateUserIdSearch} />
                                                 </FormGroup>
                                             </Form>
