@@ -7,6 +7,7 @@ import { Redirect } from 'react-router'
 
 interface IAllUsersPageComponentProps{
     token: string
+    user: User
 }
 
 interface IAllUsersPageComponentState{
@@ -42,7 +43,7 @@ export class AllUsersPageComponent extends React.Component<IAllUsersPageComponen
             this.props.token?
             <div>
                 <NavbarComponent></NavbarComponent>
-                <MultiUserComponent users={this.state.users}></MultiUserComponent>
+                <MultiUserComponent currentUser={this.props.user} users={this.state.users}></MultiUserComponent>
             </div>
             :
             <Redirect to='/login'/>

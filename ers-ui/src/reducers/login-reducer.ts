@@ -17,6 +17,12 @@ export const loginReducer = (state = initialState, action:any)=>{
                 token:action.payload.token
             }
         }
+        case userLoginTypes.STATE_CLEARED:{
+            return{
+                user: initialState.user,
+                token: initialState.token
+            }
+        }
         default:
             return state
     }

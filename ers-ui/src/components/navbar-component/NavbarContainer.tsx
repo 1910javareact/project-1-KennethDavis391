@@ -1,7 +1,7 @@
 import { IState } from "../../reducers";
 import { connect } from "react-redux";
 import { NavbarComponent } from "./NavbarComponent";
-import { clearState } from '../../action-mappers/navbar-action-mappers';
+import { clearState } from '../../action-mappers/login-action-mappers';
 
 
 const mapStateToProps = (state: IState) => {

@@ -5,6 +5,7 @@ import { AllUsersPageComponent } from "./AllUsersPageComponent"
 
 const mapStateToProps = (state: IState) => {
     return{
+        user: state.login.user,
         token: state.login.token
     }
 }

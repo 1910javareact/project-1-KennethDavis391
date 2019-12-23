@@ -152,7 +152,7 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
             this.props.token ?
                 <div>
                     <NavbarComponent match={this.props.match} updateUserId={this.updateUserId}></NavbarComponent>
-                    <UserComponent user={this.state.user}></UserComponent>
+                    <UserComponent currentUser={this.props.user} user={this.state.user}></UserComponent>
                     <Card className='text-left'>
                         <CardHeader>
                             <h2>Reimbursement Requests</h2>

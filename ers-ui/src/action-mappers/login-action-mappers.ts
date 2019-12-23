@@ -3,7 +3,8 @@ import {ersUserLogin} from '../remote/ers-clients/ers-user'
 export const userLoginTypes = {
     INVALID_CREDENTIALS: 'GB_LOGIN_INVALID_CREDENTIALS',
     SUCCESSFUL_LOGIN: 'GB_LOGIN_SUCCESSFUL_LOGIN',
-    UNSUCCESSFUL_LOGIN: 'GB_LOGIN_UNSUCCESSFUL_LOGIN'
+    UNSUCCESSFUL_LOGIN: 'GB_LOGIN_UNSUCCESSFUL_LOGIN',
+    STATE_CLEARED: 'STATE_CLEARED'
 }
 
 export const userLogin = (username: string, password: string) => async (dispatch: any) => {
@@ -28,4 +29,12 @@ export const userLogin = (username: string, password: string) => async (dispatch
         })
     }
     
+}
+
+export const clearState = () => {    
+    return{
+        type: userLoginTypes.STATE_CLEARED,
+        payload: {
+        }
+    }
 }

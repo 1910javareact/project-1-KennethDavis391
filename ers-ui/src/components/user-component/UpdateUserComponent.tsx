@@ -1,19 +1,21 @@
 import React, { SyntheticEvent } from 'react'
 import { User } from '../../models/user'
-import { Form, FormGroup, Label, Col, Input, Button } from 'reactstrap'
+import { Form, FormGroup, Label, Col, Input, Button, Alert } from 'reactstrap'
 import { ersUpdateUser } from '../../remote/ers-clients/ers-user'
 
-interface IUpdateUserComponentProps{
+interface IUpdateUserComponentProps {
     user: User
     token: String
 }
 
-interface IUpdateUserComponentState{
+interface IUpdateUserComponentState {
     user: User
     userChecked: boolean
     financeManagerChecked: boolean
     adminChecked: boolean
     updateComponent: boolean
+    validUpdate: boolean
+    invalidUpdate: boolean
 }
 
 export class UpdateUserComponent extends React.Component<IUpdateUserComponentProps, IUpdateUserComponentState>{
@@ -25,54 +27,26 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
             userChecked: false,
             financeManagerChecked: false,
             adminChecked: false,
-            updateComponent: true
+            updateComponent: true,
+            validUpdate: false,
+            invalidUpdate: false,
         }
     }
 
-    // componentDidMount(){
-    //     this.setState({
-    //         ...this.state,
-    //         user: this.props.user,
-    //         userChecked: false,
-    //         financeManagerChecked: false,
-    //         adminChecked: false,
-    //     })
-    //     for(let role of this.state.user.roles){
-    //         if(role.roleId === 1){
-    //             this.setState ({
-    //                 ...this.state,
-    //                 financeManagerChecked: true,
-    //             })
-    //         }
-    //         if(role.roleId === 2){
-    //             this.setState ({
-    //                 ...this.state,
-    //                 adminChecked: true,
-    //             })
-    //         }
-    //         if(role.roleId === 3){
-    //             this.setState ({
-    //                 ...this.state,
-    //                 userChecked: true,
-    //             })
-    //         }
-    //     }
-    // }
-
-    componentDidUpdate(){
-        if(this.state.updateComponent){
+    componentDidUpdate() {
+        if (this.state.updateComponent) {
             let financeManagerChecked = false
             let adminChecked = false
             let userChecked = false
 
-            for(let role of this.props.user.roles){
-                if(role.roleId === 1){
+            for (let role of this.props.user.roles) {
+                if (role.roleId === 1) {
                     financeManagerChecked = true
                 }
-                if(role.roleId === 2){
+                if (role.roleId === 2) {
                     adminChecked = true
                 }
-                if(role.roleId === 3){
+                if (role.roleId === 3) {
                     userChecked = true
                 }
             }
@@ -92,7 +66,7 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
             ...this.state,
             user: {
                 ...this.state.user,
-                username:input.target.value
+                username: input.target.value
             }
         })
     }
@@ -161,7 +135,7 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
         this.updateRoles()
     }
 
-    updateRoles = () => {        
+    updateRoles = () => {
         this.setState({
             ...this.state,
             user: {
@@ -170,30 +144,30 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
             }
         })
 
-        if(this.state.userChecked){
+        if (this.state.userChecked) {
             this.setState({
                 ...this.state,
                 user: {
                     ...this.state.user,
-                    roles: [{role: 'User', roleId: 3}]
+                    roles: [{ role: 'User', roleId: 3 }]
                 }
             })
         }
-        if(this.state.financeManagerChecked){
+        if (this.state.financeManagerChecked) {
             this.setState({
                 ...this.state,
                 user: {
                     ...this.state.user,
-                    roles: [...this.state.user.roles, {role: 'Finance Manager', roleId: 1}]
+                    roles: [...this.state.user.roles, { role: 'Finance Manager', roleId: 1 }]
                 }
             })
         }
-        if(this.state.adminChecked){
+        if (this.state.adminChecked) {
             this.setState({
                 ...this.state,
                 user: {
                     ...this.state.user,
-                    roles: [...this.state.user.roles, {role: 'Admin', roleId: 2}]
+                    roles: [...this.state.user.roles, { role: 'Admin', roleId: 2 }]
                 }
             })
         }
@@ -201,50 +175,79 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
 
     submitUpdate = async (e: SyntheticEvent) => {
         e.preventDefault()
-        try{
+        if(!this.state.user.username || !this.state.user.password || !this.state.user.email || !this.state.user.firstName || !this.state.user.lastName){
+            this.setState({
+                ...this.state,
+                invalidUpdate: true
+            })
+            return
+        }
+        try {
             let u = await ersUpdateUser(this.state.user, this.props.token)
-            if(u.status === 200){
-
-            }else{
+            if (u.status === 200) {
+                this.setState({
+                    ...this.state,
+                    validUpdate: true,
+                    invalidUpdate: false
+                })
+            } else {
 
             }
-        }catch(e){
+        } catch (e) {
 
         }
+    }
+
+    validUpdate = () => {
+        return (
+            <Alert color="success">
+                User Updated
+            </Alert>
+        )
+    }
+
+    invalidUpdate = () => {
+        return (
+            <Alert color="warning">
+                Please Include All Fields
+            </Alert>
+        )
     }
 
     render() {
         return (
             <div>
+                {this.state.invalidUpdate && this.invalidUpdate()}
+                {this.state.validUpdate && this.validUpdate()}
                 <Form onSubmit={this.submitUpdate}>
                     <FormGroup row>
                         <Label for="exampleUsername" sm={2}>Username: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="username" id="exampleUsername" placeholder="Username" value={this.state.user.username} onChange={this.updateUsername}/>
+                            <Input type="text" name="username" id="exampleUsername" placeholder="Username" value={this.state.user.username} onChange={this.updateUsername} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="examplePassword" sm={2}>Password: </Label>
                         <Col sm={10}>
-                            <Input type="password" name="password" id="examplePassword" placeholder="Password" value={this.state.user.password} onChange={this.updatePassword}/>
+                            <Input type="password" name="password" id="examplePassword" placeholder="Password" value={this.state.user.password} onChange={this.updatePassword} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleFirstName" sm={2}>FirstName: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="firstname" id="exampleFirstName" placeholder="Fist Name" value={this.state.user.firstName} onChange={this.updateFirstName}/>
+                            <Input type="text" name="firstname" id="exampleFirstName" placeholder="Fist Name" value={this.state.user.firstName} onChange={this.updateFirstName} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleLastName" sm={2}>Last Name: </Label>
                         <Col sm={10}>
-                            <Input type="text" name="lastname" id="exampleLastName" placeholder="Last Name" value={this.state.user.lastName} onChange={this.updateLastName}/>
+                            <Input type="text" name="lastname" id="exampleLastName" placeholder="Last Name" value={this.state.user.lastName} onChange={this.updateLastName} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="exampleEmail" sm={2}>Email: </Label>
                         <Col sm={10}>
-                            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" value={this.state.user.email} onChange={this.updateEmail}/>
+                            <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" value={this.state.user.email} onChange={this.updateEmail} />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -252,19 +255,19 @@ export class UpdateUserComponent extends React.Component<IUpdateUserComponentPro
                         <Col sm={{ size: 10 }}>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="checkbox" id="checkbox1" value="{role: 'User', roleId: 3}" checked={this.state.userChecked} onChange={this.userBoxClicked}/>
+                                    <Input type="checkbox" id="checkbox1" value="{role: 'User', roleId: 3}" checked={this.state.userChecked} onChange={this.userBoxClicked} />
                                     User
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="checkbox" id="checkbox2" value="{role: 'Finance Manager', roleId: 1}" checked={this.state.financeManagerChecked} onChange={this.financeManagerBoxClicked}/>
+                                    <Input type="checkbox" id="checkbox2" value="{role: 'Finance Manager', roleId: 1}" checked={this.state.financeManagerChecked} onChange={this.financeManagerBoxClicked} />
                                     Finance Manager
                                 </Label>
                             </FormGroup>
                             <FormGroup check>
                                 <Label check>
-                                    <Input type="checkbox" id="checkbox3" value="{role: 'Admin', roleId: 2}" checked={this.state.adminChecked} onChange={this.adminBoxClicked}/>
+                                    <Input type="checkbox" id="checkbox3" value="{role: 'Admin', roleId: 2}" checked={this.state.adminChecked} onChange={this.adminBoxClicked} />
                                     Admin
                                 </Label>
                             </FormGroup>

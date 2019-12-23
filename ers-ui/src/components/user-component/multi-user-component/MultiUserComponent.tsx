@@ -3,6 +3,7 @@ import { User } from '../../../models/user'
 import { UserComponent } from '../UserComponent'
 
 interface IMultiUserComponentProps{
+    currentUser: User
     users: User[]
 }
 
@@ -13,7 +14,7 @@ export class MultiUserComponent extends React.Component<IMultiUserComponentProps
     render(){
 
         let blocks = this.props.users.map((user) => {
-            return <UserComponent user={user} key={'user ' + user.userId} />
+            return <UserComponent currentUser={this.props.currentUser} user={user} key={'user ' + user.userId} />
         })
 
         return(

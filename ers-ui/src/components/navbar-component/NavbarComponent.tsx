@@ -16,11 +16,6 @@ import {
 } from 'reactstrap';
 import { Link, Redirect } from 'react-router-dom';
 
-// interface INavBarComponentProps {
-//     changeUserId: (userId: number) => void
-//     userId: number
-// }
-
 interface INavBarComponentState {
     isOpen: boolean,
     userIdSearch: number,
@@ -37,14 +32,6 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
             submitted: false
         }
     }
-
-
-
-    // async componentDidMount() {
-    //     this.props.changeUserId(this.props.userId)
-    //     console.log(this.state.userId)
-    //     console.log(this.props.match.params.userid)
-    // }
 
     toggle = () => {
         this.setState({
@@ -81,13 +68,13 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                 })
                 this.props.updateUserId()
             }
-        }else{
+        } else {
 
         }
 
     }
 
-    returnHome = () =>{
+    returnHome = () => {
         this.setState({
             ...this.state,
             userIdSearch: this.props.user.userId,
@@ -95,13 +82,96 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
         })
     }
 
-    changeStatus = () =>{
-        if(this.props.updateStatus){
+    changeStatus = () => {
+        if (this.props.updateStatus) {
             this.props.updateStatus()
         }
     }
 
     render() {
+        for (let role of this.props.user.roles) {
+            if (role.roleId === 1) {
+                return (
+                    <div>
+                        <Navbar color="light" light expand="md">
+                            <Link to={'/users/userid/' + this.props.user.userId} onClick={this.returnHome}><NavbarBrand>Dunder Mifflen</NavbarBrand></Link>
+                            <NavbarToggler onClick={this.toggle} />
+                            <Collapse isOpen={this.state.isOpen} navbar>
+                                <Nav className="mr-auto" navbar>
+                                    <UncontrolledDropdown nav inNavbar>
+                                        <DropdownToggle nav caret>
+                                            Reimbursements
+                                </DropdownToggle>
+                                        <DropdownMenu right>
+                                            <Link to='/reimbursements/status/1'>
+                                                <DropdownItem onClick={this.changeStatus}>
+                                                    Pending Reimbursements
+                                        </DropdownItem>
+                                            </Link>
+                                            <Link to='/reimbursements/status/2'>
+                                                <DropdownItem onClick={this.changeStatus}>
+                                                    Approved Reimbursements
+                                        </DropdownItem>
+                                            </Link>
+                                            <Link to='/reimbursements/status/3'>
+                                                <DropdownItem onClick={this.changeStatus}>
+                                                    Denied Reimbursements
+                                        </DropdownItem>
+                                            </Link>
+                                            <DropdownItem divider />
+                                            <Link to='/reimbursements/submit'>
+                                                <DropdownItem>
+                                                    Make New Riembursement Request
+                                        </DropdownItem>
+                                            </Link>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                    <UncontrolledDropdown nav inNavbar>
+                                        <DropdownToggle nav caret>
+                                            Users
+                                </DropdownToggle>
+                                        <DropdownMenu right>
+                                            <Link to='/users'>
+                                                <DropdownItem>
+                                                    All Users
+                                        </DropdownItem>
+                                            </Link>
+                                            <DropdownItem divider />
+                                            <DropdownItem>
+                                                Search User By Id
+                                    </DropdownItem>
+                                            <Form onSubmit={this.submitUserIdSearch}>
+                                                <FormGroup>
+                                                    <Input type="text" name="text" id="search-users-nav" placeholder="Search by User Id" value={this.state.userIdSearch} onChange={this.updateUserIdSearch} />
+                                                </FormGroup>
+                                            </Form>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+
+                                </Nav>
+                                <NavbarText>
+                                    <Nav>
+                                        <UncontrolledDropdown nav inNavbar>
+                                            <DropdownToggle nav caret>
+                                                Options
+                                    </DropdownToggle>
+                                            <DropdownMenu right>
+                                                <Link to='/login' onClick={this.props.clearState}>
+                                                    <DropdownItem>
+                                                        Logout
+                                                    </DropdownItem>
+                                                </Link>
+                                            </DropdownMenu>
+                                        </UncontrolledDropdown>
+                                    </Nav>
+                                </NavbarText>
+                            </Collapse>
+                        </Navbar>
+                        {this.state.submitted && this.redirect()}
+                    </div >
+                )
+            }
+        }
         return (
             <div>
                 <Navbar color="light" light expand="md">
@@ -114,22 +184,6 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     Reimbursements
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <Link to='/reimbursements/status/1'>
-                                        <DropdownItem onClick={this.changeStatus}>
-                                            Pending Reimbursements
-                                        </DropdownItem>
-                                    </Link>
-                                    <Link to='/reimbursements/status/2'>
-                                        <DropdownItem onClick={this.changeStatus}>
-                                            Approved Reimbursements
-                                        </DropdownItem>
-                                    </Link>
-                                    <Link to='/reimbursements/status/3'>
-                                        <DropdownItem onClick={this.changeStatus}>
-                                            Denied Reimbursements
-                                        </DropdownItem>
-                                    </Link>
-                                    <DropdownItem divider />
                                     <Link to='/reimbursements/submit'>
                                         <DropdownItem>
                                             Make New Riembursement Request
@@ -137,28 +191,6 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     </Link>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Users
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <Link to='/users'>
-                                        <DropdownItem>
-                                            All Users
-                                        </DropdownItem>
-                                    </Link>
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Search User By Id
-                                    </DropdownItem>
-                                    <Form onSubmit={this.submitUserIdSearch}>
-                                        <FormGroup>
-                                            <Input type="text" name="text" id="search-users-nav" placeholder="Search by User Id" value={this.state.userIdSearch} onChange={this.updateUserIdSearch} />
-                                        </FormGroup>
-                                    </Form>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-
                         </Nav>
                         <NavbarText>
                             <Nav>
@@ -181,5 +213,6 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                 {this.state.submitted && this.redirect()}
             </div >
         )
+
     }
 }

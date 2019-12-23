@@ -1,10 +1,11 @@
 import React, { SyntheticEvent } from 'react'
-import { Form, FormGroup, Label, Input, Button, Col } from 'reactstrap'
+import { Form, FormGroup, Label, Input, Button, Col, Alert } from 'reactstrap'
 import { Redirect } from 'react-router-dom'
 import { User } from '../../models/user'
 
 interface ILoginComponentProps {
     user: User
+    token: String
     userLogin: (username: string, password: string) => void
 }
 
@@ -15,7 +16,8 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
         this.state = {
             username: '',
             password: '',
-            userLogedIn: false
+            userLogedIn: false,
+            invalidCredentials: false
         }
     }
 
@@ -36,21 +38,36 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
     submitLogin = async (e: SyntheticEvent) => {
         e.preventDefault()
         await this.props.userLogin(this.state.username, this.state.password)
-        if(this.props.user){
+        if (this.props.token) {
             this.setState({
                 ...this.state,
                 userLogedIn: true
             })
+        } else {
+            this.setState({
+                ...this.state,
+                invalidCredentials: true
+            })
         }
+
     }
 
     goToHome = () => {
         return (<Redirect to={'/users/userid/' + this.props.user.userId} />)
     }
 
+    wrongUserOrPass = () => {
+        return (
+            <Alert color="danger">
+                Invalid Username or Password.
+            </Alert>
+        )
+    }
+
     render() {
         return (
             <div id="login-div">
+                {this.state.invalidCredentials && this.wrongUserOrPass()}
                 <Form onSubmit={this.submitLogin}>
                     <FormGroup row>
                         <Label for="exampleUsername" sm={2}>Username: </Label>
@@ -80,7 +97,8 @@ export class LoginComponent extends React.Component<ILoginComponentProps, any>{
                     </FormGroup>
                     <Button color="primary">Login</Button>
                 </Form>
-            {this.state.userLogedIn && this.goToHome()}
+                {this.state.userLogedIn && this.goToHome()}
+
             </div>
         )
     }
