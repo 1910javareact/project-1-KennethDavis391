@@ -104,7 +104,7 @@ export async function ersPatchReimbursement(reimbursementId:number, status:numbe
 
     try{
         const response = await ersUserClient.patch('/reimbursements',body, tokenHeader)
-        if(response.status === 200){
+        if(response.status === 201){
             return{
                 status: response.status,
                 body: response.data,

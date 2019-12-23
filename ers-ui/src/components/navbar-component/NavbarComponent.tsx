@@ -121,12 +121,12 @@ export class NavbarComponent extends React.Component<any, INavBarComponentState>
                                     </Link>
                                     <Link to='/reimbursements/status/2'>
                                         <DropdownItem onClick={this.changeStatus}>
-                                            approved Reimbursements
+                                            Approved Reimbursements
                                         </DropdownItem>
                                     </Link>
                                     <Link to='/reimbursements/status/3'>
                                         <DropdownItem onClick={this.changeStatus}>
-                                            denied Reimbursements
+                                            Denied Reimbursements
                                         </DropdownItem>
                                     </Link>
                                     <DropdownItem divider />

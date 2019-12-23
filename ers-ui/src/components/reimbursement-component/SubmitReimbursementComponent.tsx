@@ -13,6 +13,7 @@ interface ISubmitReimbursementComponentState {
     amount: number;
     type: number;
     description: string;
+    submitted: boolean
 }
 
 export class SubmitReimbursementComponent extends React.Component<ISubmitReimbursementComponentProps, ISubmitReimbursementComponentState>{
@@ -23,6 +24,7 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
             amount: 0,
             type: 0,
             description: '',
+            submitted: false
         }
     }
 
@@ -65,7 +67,7 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
 
     render() {
         return (
-            this.props.user?
+            this.props.token?
             <div>
                 <Form onSubmit={this.submitReimbursement}>
                     <FormGroup row>
@@ -115,7 +117,6 @@ export class SubmitReimbursementComponent extends React.Component<ISubmitReimbur
                         </Col>
                     </FormGroup>
                 </Form>
-
             </div>
             :
             <Redirect to='/login'/>
