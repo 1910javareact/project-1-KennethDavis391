@@ -6,21 +6,14 @@ import { User } from '../../models/user'
 import { Reimbursement } from '../../models/reimbursement'
 import { ersGetReimbursementsById } from '../../remote/ers-clients/ers-reimbursement'
 import { ersGetUserById } from '../../remote/ers-clients/ers-user'
-import { Card, CardHeader } from 'reactstrap'
+import { Card, CardHeader, Alert } from 'reactstrap'
 import { Redirect } from 'react-router'
-
-// interface ISingleUserPageComponentProps{
-//     //getUserById:(userId: number, token: string) => User
-//     //getReimbursementsById:(userId: number, token: string) => Reimbursement[]
-//     userId: number
-//     token: string
-//     user: User
-// }
 
 interface ISingleUserPageComponentState {
     user: User,
     reimbursements: Reimbursement[]
     realUpdate: boolean
+    invalidUserId: boolean
 }
 
 export class SingleUserPageComponent extends React.Component<any, ISingleUserPageComponentState>{
@@ -30,7 +23,8 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
         this.state = {
             user: new User(0, '', '', '', '', '', []),
             reimbursements: [],
-            realUpdate: false
+            realUpdate: false,
+            invalidUserId: false
         }
     }
 
@@ -76,14 +70,15 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
                 if (u.status === 200) {
                     this.setState({
                         ...this.state,
-                        user: u.body
+                        user: u.body,
+                        invalidUserId: false
                     })
                 }
             } catch (e) {
                 console.log(e)
                 this.setState({
                     ...this.state,
-                    user: new User(this.props.userId, '', '', '', '', '', [])
+                    invalidUserId: true
                 })
             }
             try {
@@ -115,42 +110,21 @@ export class SingleUserPageComponent extends React.Component<any, ISingleUserPag
             ...this.state,
             realUpdate: true
         })
-        // try {
-        //     let u = await ersGetUserById(userid, this.props.token)
-        //     if (u.status === 200) {
-        //         this.setState({
-        //             ...this.state,
-        //             user: u.body
-        //         })
-        //     }
-        // } catch (e) {
-        //     console.log(e)
-        //     this.setState({
-        //         ...this.state,
-        //         user: new User(this.props.userId, '', '', '', '', '', [])
-        //     })
-        // }
-        // try {
-        //     let r = await ersGetReimbursementsById(userid, this.props.token)
-        //     if (r.status === 200) {
-        //         this.setState({
-        //             ...this.state,
-        //             reimbursements: r.body,
-        //         })
-        //     }
-        // } catch (e) {
-        //     console.log(e);
-        //     this.setState({
-        //         ...this.state,
-        //         reimbursements: []
-        //     })
-        // }
+    }
+
+    invalidUserId = () => {
+        return (
+            <Alert color="warning">
+                No User By That Id Exists
+            </Alert>
+        )
     }
 
     render() {
         return (
             this.props.token ?
                 <div>
+                    {this.state.invalidUserId && this.invalidUserId()}
                     <NavbarComponent match={this.props.match} updateUserId={this.updateUserId}></NavbarComponent>
                     <UserComponent currentUser={this.props.user} user={this.state.user}></UserComponent>
                     <Card className='text-left'>
